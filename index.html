@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>physIQ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {},
+        },
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        /* Light Theme */
+        --bg-gradient: linear-gradient(180deg, #E8FFF9 0%, #DFFCF2 100%);
+        --text-heading: #003A2E;
+        --text-subheading: #2B6A5A;
+        --text-primary: #023C37;
+        --text-secondary: #1B5E55;
+        
+        --card-bg: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(230,255,247,0.8) 100%);
+        --card-border: rgba(0,120,100,0.15);
+        --card-border-hover: #00C29A;
+        --card-shadow: 0px 4px 12px rgba(0,0,0,0.04);
+
+        --icon-hover-shadow: 0 0 10px rgba(0, 194, 154, 0.5);
+        --icon-hover-bg: rgba(204, 251, 241, 0.5);
+        --icon-hover-text: #003A2E;
+
+        --accent-primary: #00C29A;
+        --prose-strong: #00C29A;
+        --glow-color: rgba(0,194,154,0.3); /* For logo pulse */
+        --logo-text-gradient: linear-gradient(90deg, #00838f, #00c29a);
+        
+        --accent-text-primary: #FFFFFF;
+        --button-secondary-bg: rgba(204, 251, 241, 0.3);
+        --button-secondary-border: rgba(0,120,100,0.15);
+        --button-secondary-hover-bg: rgba(204, 251, 241, 0.6);
+      }
+
+      .dark {
+        /* Dark Theme */
+        --bg-gradient: linear-gradient(180deg, #020615 0%, #041222 40%, #071626 100%);
+        --text-heading: #E6FFF9;
+        --text-subheading: #9FDCD4;
+        --text-primary: #e2e8f0;
+        --text-secondary: #94a3b8;
+        
+        --card-bg: rgba(10,20,30,0.55);
+        --card-border: rgba(0,255,200,0.04);
+        --card-border-hover: rgba(0,255,200,0.3);
+        --card-shadow: none;
+
+        --icon-hover-shadow: 0 0 12px rgba(0,255,200,0.7);
+        --icon-hover-bg: rgba(0, 255, 200, 0.1);
+        --icon-hover-text: #ffffff;
+        
+        --accent-primary: #00FF9C;
+        --prose-strong: #00FF9C;
+        --glow-color: rgba(0,230,170,0.14);
+        --logo-text-gradient: linear-gradient(90deg, #4dd0e1, #00ff9c);
+        
+        --accent-text-primary: #003A2E;
+        --button-secondary-bg: rgba(0, 255, 200, 0.08);
+        --button-secondary-border: rgba(0,255,200,0.1);
+        --button-secondary-hover-bg: rgba(0, 255, 200, 0.15);
+      }
+      
+      body {
+        font-family: 'Poppins', sans-serif;
+        color: var(--text-primary);
+      }
+      
+      .prose table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1em;
+        margin-bottom: 1em;
+      }
+      .prose th, .prose td {
+        border: 1px solid var(--card-border);
+        padding: 0.5em 1em;
+        text-align: left;
+      }
+      .prose th {
+        background-color: rgba(10, 20, 30, 0.1);
+        font-weight: 600;
+      }
+      .dark .prose th {
+        background-color: rgba(200, 255, 230, 0.05);
+      }
+
+      /* FIX: Globally override Tailwind Prose variables to use our theme colors. */
+      .prose {
+        --tw-prose-body: var(--text-primary);
+        --tw-prose-headings: var(--text-heading);
+        --tw-prose-lead: var(--text-subheading);
+        --tw-prose-links: var(--text-heading);
+        --tw-prose-bold: var(--text-heading);
+        --tw-prose-counters: var(--text-secondary);
+        --tw-prose-bullets: var(--text-secondary);
+        --tw-prose-hr: var(--card-border);
+        --tw-prose-quotes: var(--text-heading);
+        --tw-prose-quote-borders: var(--card-border);
+        --tw-prose-captions: var(--text-secondary);
+        --tw-prose-code: var(--text-heading);
+        --tw-prose-pre-code: var(--text-heading);
+        --tw-prose-pre-bg: rgba(0,0,0,0.05);
+        --tw-prose-th-borders: var(--card-border);
+        --tw-prose-td-borders: var(--card-border);
+      }
+
+      .dark .prose {
+        --tw-prose-pre-bg: rgba(255,255,255,0.05);
+      }
+
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      @keyframes planet-core-breathe {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.03); }
+      }
+      
+      @keyframes internal-swirl {
+        0% { filter: url(#swirl-filter); }
+        50% { filter: url(#swirl-filter-mid); }
+        100% { filter: url(#swirl-filter); }
+      }
+      
+      @keyframes particle-float {
+        0%, 100% { transform: translateY(0) translateX(0); }
+        25% { transform: translateY(-10px) translateX(5px); }
+        50% { transform: translateY(0) translateX(10px); }
+        75% { transform: translateY(10px) translateX(5px); }
+      }
+      
+      @keyframes text-fade-in-up {
+        0% { opacity: 0; transform: translateY(20px); }
+        100% { opacity: 1; transform: translateY(0px); }
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      @keyframes logo-pulse {
+        0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px var(--glow-color)); }
+        50% { transform: scale(1.02); filter: drop-shadow(0 0 16px var(--glow-color)); }
+      }
+
+      @keyframes particle-drift {
+        from { transform: translateY(0vh); }
+        to { transform: translateY(110vh); }
+      }
+
+      @keyframes card-enter {
+        0% { opacity: 0; transform: translateY(30px) scale(0.98); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      .animate-card-enter {
+        animation: card-enter 0.6s cubic-bezier(.22,.9,.12,1) backwards;
+      }
+      
+      .animate-text-fade-in-up {
+        animation: text-fade-in-up 1.5s ease-out 0.5s forwards;
+      }
+
+      .animate-fadeIn {
+        animation: fadeIn 1s ease-in-out forwards;
+      }
+
+      .animate-pop-in {
+        animation: pop-in 0.3s cubic-bezier(.22,.9,.12,1);
+      }
+      
+      @keyframes pop-in {
+        0% { transform: scale(0.5); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
+      }
+      
+      ::-webkit-scrollbar {
+        display: none;
+      }
+      * {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+    <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.29.0",
+    "vite": "https://aistudiocdn.com/vite@^7.2.2",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <script>
+      // Prevent FOUC (Flash of Unstyled Content) for dark mode
+      if (localStorage.getItem('physIQTheme') === 'dark' || (!('physIQTheme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
